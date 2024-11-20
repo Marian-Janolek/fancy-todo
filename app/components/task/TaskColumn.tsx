@@ -1,28 +1,23 @@
-import { STATES } from '../../types';
+import { ITask } from '../../types';
 import TaskCard from './TaskCard';
 
 interface ITaskColumn {
   title: string;
+  data?: ITask[];
 }
 
-const TaskColumn = ({ title }: ITaskColumn) => {
+const TaskColumn = ({ title, data }: ITaskColumn) => {
   return (
-    <div className='bg-background'>
+    <div className='bg-background min-h-20'>
       <h5
         className='text-center bg-violet-600 text-white py-1 font-medium sticky top-20'
         title={title}
       >
         {title}
       </h5>
-      <TaskCard id='a' title='Vysypať smeti' state={STATES.TODO} />
-      <TaskCard id='a' title='Vysypať smeti' state={STATES.TODO} />
-      <TaskCard id='a' title='Vysypať smeti' state={STATES.TODO} />
-      <TaskCard id='a' title='Vysypať smeti' state={STATES.IN_PROGRESS} />
-      <TaskCard id='a' title='Vysypať smeti' state={STATES.IN_PROGRESS} />
-      <TaskCard id='a' title='Vysypať smeti' state={STATES.IN_PROGRESS} />
-      <TaskCard id='a' title='Vysypať smeti' state={STATES.COMPLETED} />
-      <TaskCard id='a' title='Vysypať smeti' state={STATES.COMPLETED} />
-      <TaskCard id='a' title='Vysypať smeti' state={STATES.COMPLETED} />
+      {data?.map((task) => (
+        <TaskCard key={task.id} task={task} />
+      ))}
     </div>
   );
 };

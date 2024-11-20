@@ -1,32 +1,27 @@
 import { sliceTitle } from '@/utils/string';
 import PencilIcon from '../icons/Pencil';
 import TrashIcon from '../icons/Trash';
-import { STATES } from '@/app/types';
+import { ITask, STATES } from '@/app/types';
 import { useContext } from 'react';
 import { AppContext } from '@/app/context/AppContext';
-
-interface ITaskCard {
-  id: string;
-  title: string;
-  state: STATES;
-}
 
 const buttonStateMap: Record<STATES, string> = {
   [STATES.TODO]: 'Štart',
   [STATES.IN_PROGRESS]: 'Hotovo',
-  [STATES.COMPLETED]: 'Odznova',
+  [STATES.DONE]: 'Odznova',
 };
 
 const buttonNextState = (state: STATES): string => buttonStateMap[state];
 
-const TaskCard = ({ id, title, state }: ITaskCard) => {
+const TaskCard = ({ task }: { task: ITask }) => {
+  const { id, name, stateId, stateName } = task;
   const { updateAppModal } = useContext(AppContext);
-  const btnText = buttonNextState(state);
+  const btnText = buttonNextState(stateName);
 
   return (
     <div className='flex justify-between items-center gap-x-4 m-6 p-2 pb-4 bg-white rounded shadow-md cursor-pointer transition-all duration-300 ease-in-out hover:shadow-xl '>
-      <h5 className='font-semibold' title={title}>
-        {sliceTitle(title, 40)}
+      <h5 className='font-semibold' title={name}>
+        {sliceTitle(name, 40)}
       </h5>
       <div className='flex items-center gap-1 justify-center'>
         <button
@@ -35,7 +30,7 @@ const TaskCard = ({ id, title, state }: ITaskCard) => {
         >
           {btnText}
         </button>
-        {state !== STATES.COMPLETED && (
+        {stateName !== STATES.DONE && (
           <button
             className='p-1 bg-black text-white rounded transition-all duration-300 ease-in-out'
             onClick={() => updateAppModal('editTask')}

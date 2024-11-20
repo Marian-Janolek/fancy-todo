@@ -1,9 +1,16 @@
 import { ReactNode } from 'react';
 
+export interface ITask {
+  id: number;
+  name: string;
+  stateId: number;
+  stateName: STATES;
+}
+
 export enum STATES {
   TODO = 'TODO',
   IN_PROGRESS = 'IN_PROGRESS',
-  COMPLETED = 'COMPLETED',
+  DONE = 'DONE',
 }
 
 export type TOnRecordSave = () => Promise<void>;

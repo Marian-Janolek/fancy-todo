@@ -1,7 +1,10 @@
 -- CreateTable
 CREATE TABLE "TaskState" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "stateName" TEXT NOT NULL
+    "stateName" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    "deletedAt" DATETIME
 );
 
 -- CreateTable
