@@ -1,4 +1,4 @@
-import { STATES } from '../../types/states';
+import { STATES } from '../../types';
 import TaskCard from './TaskCard';
 
 interface ITaskColumn {

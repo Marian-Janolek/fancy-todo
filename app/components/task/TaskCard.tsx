@@ -1,7 +1,9 @@
 import { sliceTitle } from '@/app/utils/string';
 import PencilIcon from '../icons/Pencil';
 import TrashIcon from '../icons/Trash';
-import { STATES } from '@/app/types/states';
+import { STATES } from '@/app/types';
+import { useContext } from 'react';
+import { AppContext } from '@/app/context/AppContext';
 
 interface ITaskCard {
   id: string;
@@ -18,22 +20,26 @@ const buttonStateMap: Record<STATES, string> = {
 const buttonNextState = (state: STATES): string => buttonStateMap[state];
 
 const TaskCard = ({ id, title, state }: ITaskCard) => {
+  const { updateAppModal } = useContext(AppContext);
   const btnText = buttonNextState(state);
 
   return (
-    <div className='flex justify-between items-center gap-x-4 m-6 p-2 pb-4 bg-white rounded-sm shadow-md cursor-pointer transition-all duration-300 ease-in-out hover:shadow-xl '>
+    <div className='flex justify-between items-center gap-x-4 m-6 p-2 pb-4 bg-white rounded shadow-md cursor-pointer transition-all duration-300 ease-in-out hover:shadow-xl '>
       <h5 className='font-semibold' title={title}>
         {sliceTitle(title, 40)}
       </h5>
       <div className='flex items-center gap-1 justify-center'>
         <button
-          className='text-sm  bg-violet-400  text-white rounded-sm p-1 px-2 hover:bg-violet-600'
+          className='text-sm  bg-violet-400  text-white rounded p-1 px-2 hover:bg-violet-600'
           title={btnText}
         >
           {btnText}
         </button>
         {state !== STATES.COMPLETED && (
-          <button className='p-1 bg-black text-white rounded transition-all duration-300 ease-in-out'>
+          <button
+            className='p-1 bg-black text-white rounded transition-all duration-300 ease-in-out'
+            onClick={() => updateAppModal('editTask')}
+          >
             <PencilIcon />
           </button>
         )}
