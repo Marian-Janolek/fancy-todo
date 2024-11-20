@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useState } from 'react';
 import { TIsOpenTypeModal } from '../types';
-import { defaultModalState } from '../utils/string';
+import { defaultModalState } from '../../utils/string';
 
 interface IAppContext {
   appModal: TIsOpenTypeModal;

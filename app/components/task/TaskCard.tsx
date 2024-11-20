@@ -1,4 +1,4 @@
-import { sliceTitle } from '@/app/utils/string';
+import { sliceTitle } from '@/utils/string';
 import PencilIcon from '../icons/Pencil';
 import TrashIcon from '../icons/Trash';
 import { STATES } from '@/app/types';

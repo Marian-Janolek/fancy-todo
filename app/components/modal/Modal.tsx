@@ -1,6 +1,6 @@
 import { AppContext } from '@/app/context/AppContext';
 import { IAppModal } from '@/app/types';
-import { defaultModalState } from '@/app/utils/string';
+import { defaultModalState } from '@/utils/string';
 import { useContext } from 'react';
 
 const Modal = ({
