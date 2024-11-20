@@ -17,6 +17,9 @@ export const GET = async (req: Request) => {
       where: {
         deletedAt: null,
       },
+      orderBy: {
+        updatedAt: 'desc',
+      },
     });
 
     if (tasks.length === 0) {

@@ -1,4 +1,8 @@
+import { AppContext } from '@/app/context/AppContext';
 import { TOnRecordSave } from '@/app/types';
+import { defaultModalState } from '@/utils/constants';
+import { useContext } from 'react';
+import { useFormStatus } from 'react-dom';
 
 interface IModalFooter {
   disabled?: boolean;
@@ -6,6 +10,7 @@ interface IModalFooter {
 }
 
 const ModalFooter = ({ onRecordSave, disabled }: IModalFooter) => {
+  const { updateAppModal } = useContext(AppContext);
   return (
     <div className='mt-6 flex justify-end gap-2'>
       <button
@@ -16,7 +21,7 @@ const ModalFooter = ({ onRecordSave, disabled }: IModalFooter) => {
         Potvrdiť
       </button>
       <button
-        onClick={() => console.log('TODO close modal')}
+        onClick={() => updateAppModal(defaultModalState)}
         className='px-2 py-1 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition'
       >
         Zrušiť

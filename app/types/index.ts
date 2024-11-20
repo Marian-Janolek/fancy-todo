@@ -22,4 +22,9 @@ export interface IAppModal {
   children: ReactNode;
 }
 
-export type TIsOpenTypeModal = 'addTask' | 'editTask' | 'closed';
+export type TIsOpenTypeModal = 'addTask' | 'editTask' | 'removeTask' | 'closed';
+
+export enum FORM_MODE {
+  ADD = 'ADD',
+  EDIT = 'EDIT',
+}

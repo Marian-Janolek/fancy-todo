@@ -27,7 +27,7 @@ export async function PUT(req: Request) {
       });
 
       return NextResponse.json(
-        { message: `Task {{${newTask.name}}} was create successfully` },
+        { message: `Task {{${newTask.name}}} was created successfully` },
         { status: 201 }
       );
     }
