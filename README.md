@@ -59,7 +59,7 @@ npm run seed
 npm run dev
 ```
 
-## Optional features
+## Added Optional features
 
 - Reusable modal component
 - Edit capability
