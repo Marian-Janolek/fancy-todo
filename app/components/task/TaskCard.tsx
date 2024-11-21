@@ -5,6 +5,9 @@ import { ITask, STATES } from '@/app/types';
 import { useContext } from 'react';
 import { AppContext } from '@/app/context/AppContext';
 import { buttonStateMap, nextSTasktate } from '@/utils/functions';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { IChangeState, changeTaskState } from '@/utils/mutations';
+import Loading from '../Loading';
 
 const buttonNextState = (state: STATES): string => buttonStateMap[state];
 
@@ -15,6 +18,22 @@ const TaskCard = ({ task }: { task: ITask }) => {
     updateModalData,
     toast: { setToast },
   } = useContext(AppContext);
+  const queryClient = useQueryClient();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: ({ taskId, nextState }: IChangeState) =>
+      changeTaskState({ taskId, nextState }),
+    onSuccess: (data) => {
+      setToast({ idVisible: true, message: data.message });
+
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+    },
+    onError: (error: Error) => {
+      console.error('Error changing task state:', error.message);
+      setToast({ idVisible: true, message: error.message });
+    },
+  });
+
   const btnText = buttonNextState(stateName);
 
   const handleEditTask = () => {
@@ -27,40 +46,24 @@ const TaskCard = ({ task }: { task: ITask }) => {
     updateAppModal('removeTask');
   };
 
-  const handleChangeTaskState = async () => {
+  const handleClick = () => {
     const nextState = nextSTasktate(task.stateName);
-    try {
-      const response = await fetch(`/api/task/${task.id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ nextState: nextState }),
-      });
-      const data = await response.json();
-
-      setToast({ idVisible: true, message: data.message });
-
-      if (!response.ok) {
-        return;
-      }
-    } catch (error) {
-      console.error('Error changing task state:', error);
-    }
+    mutate({ taskId: task.id, nextState });
   };
 
   return (
     <div className='flex justify-between items-center gap-x-4 m-6 p-2 pb-4 bg-white rounded shadow-md cursor-pointer transition-all duration-300 ease-in-out hover:shadow-xl '>
       <h5 className='font-semibold' title={name}>
-        {sliceTitle(name, 40)}
+        {sliceTitle(name, 30)}
       </h5>
       <div className='flex items-center gap-1 justify-center'>
         <button
           className='text-sm  bg-violet-400  text-white rounded p-1 px-2 hover:bg-violet-600'
           title={btnText}
-          onClick={handleChangeTaskState}
+          onClick={handleClick}
+          disabled={isPending}
         >
-          {btnText}
+          {isPending ? <Loading className='border-white w-4 h-4' /> : btnText}
         </button>
         {stateName !== STATES.DONE && (
           <button

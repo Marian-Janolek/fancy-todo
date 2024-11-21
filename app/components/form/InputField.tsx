@@ -7,6 +7,7 @@ interface IFormInput {
   placeholder?: string;
   maxLength?: number;
   ref?: RefObject<HTMLInputElement>;
+  onChange: () => void;
 }
 
 const InputField = ({
@@ -16,6 +17,7 @@ const InputField = ({
   placeholder,
   maxLength = 100,
   ref,
+  onChange,
 }: IFormInput) => {
   return (
     <input
@@ -27,6 +29,7 @@ const InputField = ({
       placeholder={placeholder}
       defaultValue={defaultValue}
       max={maxLength}
+      onChange={onChange}
       required
     />
   );

@@ -38,13 +38,15 @@ export async function PATCH(
       );
     }
 
-    await db.task.update({
+    const updatedTask = await db.task.update({
       where: { id: Number(slug) },
       data: { stateId: taskState.id },
     });
 
     return NextResponse.json(
-      { message: 'Task updated successfully' },
+      {
+        message: `Task <span class='text-violet-600 font-semibold'>${updatedTask.name}</span> updated successfully`,
+      },
       { status: 200, statusText: 'OK' }
     );
   } catch (error) {
@@ -85,7 +87,7 @@ export async function DELETE(
       );
     }
 
-    await db.task.update({
+    const removedTask = await db.task.update({
       where: { id: Number(slug) },
       data: {
         deletedAt: new Date(),
@@ -93,7 +95,9 @@ export async function DELETE(
     });
 
     return NextResponse.json(
-      { message: 'Task removed successfully' },
+      {
+        message: `Task <span class='text-violet-600 font-semibold'>${removedTask.name}</span> removed successfully`,
+      },
       {
         status: 200,
       }

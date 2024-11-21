@@ -27,7 +27,9 @@ export async function PUT(req: Request) {
       });
 
       return NextResponse.json(
-        { message: `Task {{${newTask.name}}} was created successfully` },
+        {
+          message: `Task <span class='text-violet-600 font-semibold'>${newTask.name}</span> was created successfully`,
+        },
         { status: 201 }
       );
     }
@@ -47,7 +49,9 @@ export async function PUT(req: Request) {
     });
 
     return NextResponse.json(
-      { message: `Task {{${updatedTask.name}}} was updated successfully` },
+      {
+        message: `Task <span class='text-violet-600 font-semibold'>${updatedTask.name}</span> was updated successfully`,
+      },
       { status: 200 }
     );
   } catch (error) {

@@ -1,12 +1,14 @@
 import { ITask } from '../../types';
+import Loading from '../Loading';
 import TaskCard from './TaskCard';
 
 interface ITaskColumn {
   title: string;
   data?: ITask[];
+  isLoading?: boolean;
 }
 
-const TaskColumn = ({ title, data }: ITaskColumn) => {
+const TaskColumn = ({ title, data, isLoading }: ITaskColumn) => {
   return (
     <div className='bg-background min-h-20'>
       <h5
@@ -15,9 +17,11 @@ const TaskColumn = ({ title, data }: ITaskColumn) => {
       >
         {title}
       </h5>
-      {data?.map((task) => (
-        <TaskCard key={task.id} task={task} />
-      ))}
+      {isLoading ? (
+        <Loading className='w-28 h-28 m-20' />
+      ) : (
+        data?.map((task) => <TaskCard key={task.id} task={task} />)
+      )}
     </div>
   );
 };

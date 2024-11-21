@@ -1,10 +1,14 @@
-import { useContext, useRef } from 'react';
+import { useContext, useRef, useState } from 'react';
 import Modal from './Modal';
 import ModalHeader from './ModalHeader';
 import { AppContext } from '@/app/context/AppContext';
 import InputField from '../form/InputField';
 import ModalFooter from './ModalFooter';
-import { FORM_MODE } from '@/app/types';
+import { FORM_MODE, ITask, ITaskResponse } from '@/app/types';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { upsertTask } from '@/utils/mutations';
+
+const errorMessage = 'Názov úlohy musí obsahovať minimálne 1 znak.';
 
 const TaskModal = ({ mode }: { mode: FORM_MODE }) => {
   const {
@@ -14,43 +18,51 @@ const TaskModal = ({ mode }: { mode: FORM_MODE }) => {
     toast: { setToast },
   } = useContext(AppContext);
   const taskNameRef = useRef<HTMLInputElement>(null);
+  const queryClient = useQueryClient();
+  const [error, setError] = useState(false);
   const isEditing = mode === FORM_MODE.EDIT;
 
-  const handleSubmit = async () => {
-    try {
-      const taskName = taskNameRef.current?.value.trim();
-
-      if (!taskName) {
-        return;
-      }
-      const body = isEditing
-        ? { id: modalData.id, name: taskName }
-        : { name: taskName };
-
-      const response = await fetch('/api/task/', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      });
-
-      const data = await response.json();
-
+  const { mutate, isPending } = useMutation({
+    mutationFn: (body: Partial<ITask>) => upsertTask(body),
+    onSuccess: (data: ITaskResponse) => {
       setToast({
         idVisible: true,
         message: data.message,
       });
 
-      if (!response.ok) {
-        return;
-      }
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
 
       if (isEditing) updateModalData({});
 
       updateAppModal('closed');
-    } catch (error) {
-      console.error('Error adding task:', error);
+    },
+    onError: (error: Error) => {
+      console.error('Error saving task:', error.message);
+      setToast({
+        idVisible: true,
+        message: error.message || 'Something went wrong',
+      });
+    },
+  });
+
+  const handleSubmit = () => {
+    const taskName = taskNameRef.current?.value.trim();
+
+    if (!taskName) {
+      setError(true);
+      return;
+    }
+
+    const body = isEditing
+      ? { id: modalData.id, name: taskName }
+      : { name: taskName };
+
+    mutate(body);
+  };
+
+  const handleInputChange = () => {
+    if (error) {
+      setError(false);
     }
   };
 
@@ -62,6 +74,7 @@ const TaskModal = ({ mode }: { mode: FORM_MODE }) => {
     >
       <div>
         <form onSubmit={(e) => e.preventDefault()}>
+          {error && <p className='text-red-500'>{errorMessage}</p>}
           <InputField
             ref={taskNameRef}
             name='name'
@@ -69,10 +82,11 @@ const TaskModal = ({ mode }: { mode: FORM_MODE }) => {
             maxLength={100}
             placeholder='Názov úlohy (max 100)'
             defaultValue={isEditing ? modalData.name : ''}
+            onChange={handleInputChange}
           />
         </form>
       </div>
-      <ModalFooter disabled={false} onRecordSave={handleSubmit} />
+      <ModalFooter isLoading={isPending} onRecordSave={handleSubmit} />
     </Modal>
   );
 };

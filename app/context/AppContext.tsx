@@ -3,14 +3,19 @@ import { ITask, TIsOpenTypeModal } from '../types';
 import { defaultModalState } from '../../utils/constants';
 import { defaultToast } from '@/utils/constants';
 
+interface IToast {
+  idVisible: boolean;
+  message: JSX.Element | string;
+}
+
 interface IAppContext {
   appModal: TIsOpenTypeModal;
   updateAppModal: (state: TIsOpenTypeModal) => void;
   modalData: Partial<ITask>;
   updateModalData: (data: Partial<ITask>) => void;
   toast: {
-    toastDetails: { idVisible: boolean; message: string };
-    setToast: (toast: { idVisible: boolean; message: string }) => void;
+    toastDetails: IToast;
+    setToast: (toast: IToast) => void;
     closeToast: () => void;
   };
 }
@@ -20,7 +25,7 @@ export const AppContext = createContext({} as IAppContext);
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [appModal, setAppModal] = useState<TIsOpenTypeModal>(defaultModalState);
   const [modalData, setModalData] = useState<Partial<ITask>>({});
-  const [toastDetails, setToastDetails] = useState(defaultToast);
+  const [toastDetails, setToastDetails] = useState<IToast>(defaultToast);
 
   const updateAppModal = (state: TIsOpenTypeModal) => {
     setAppModal(state);

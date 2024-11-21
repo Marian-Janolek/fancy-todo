@@ -3,6 +3,8 @@ import Modal from './Modal';
 import ModalFooter from './ModalFooter';
 import ModalHeader from './ModalHeader';
 import { AppContext } from '@/app/context/AppContext';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { deleteTask } from '@/utils/mutations';
 
 const DeleteTaskModal = () => {
   const {
@@ -11,32 +13,36 @@ const DeleteTaskModal = () => {
     updateModalData,
     toast: { setToast },
   } = useContext(AppContext);
+  const queryClient = useQueryClient();
 
-  const handleSubmit = async () => {
-    try {
-      if (!modalData.id) {
-        return;
-      }
-      const response = await fetch(`/api/task/${modalData.id}`, {
-        method: 'DELETE',
-      });
-
-      const data = await response.json();
-
+  const { mutate, isPending } = useMutation({
+    mutationFn: (taskId: number) => deleteTask(taskId),
+    onSuccess: (data) => {
       setToast({
         idVisible: true,
         message: data.message,
       });
 
-      if (!response.ok) {
-        return;
-      }
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
 
       updateModalData({});
       updateAppModal('closed');
-    } catch (error) {
-      console.error('Error deleting task:', error);
+    },
+    onError: (error: Error) => {
+      console.error('Error while deleting task:', error.message);
+      setToast({
+        idVisible: true,
+        message: error.message || 'Failed to delete task',
+      });
+    },
+  });
+
+  const handleSubmit = () => {
+    if (!modalData.id) {
+      return;
     }
+
+    mutate(modalData.id);
   };
 
   return (
@@ -48,7 +54,7 @@ const DeleteTaskModal = () => {
       <div>
         <h3>Vymazanie úlohy je nezvratný proces, želáte si pokračovať ?</h3>
       </div>
-      <ModalFooter disabled={false} onRecordSave={handleSubmit} />
+      <ModalFooter isLoading={isPending} onRecordSave={handleSubmit} />
     </Modal>
   );
 };

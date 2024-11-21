@@ -13,7 +13,7 @@ export enum STATES {
   DONE = 'DONE',
 }
 
-export type TOnRecordSave = () => Promise<void>;
+export type TOnRecordSave = () => void;
 
 export interface IAppModal {
   isOpenType: TIsOpenTypeModal;
@@ -27,4 +27,8 @@ export type TIsOpenTypeModal = 'addTask' | 'editTask' | 'removeTask' | 'closed';
 export enum FORM_MODE {
   ADD = 'ADD',
   EDIT = 'EDIT',
+}
+
+export interface ITaskResponse {
+  message: string;
 }

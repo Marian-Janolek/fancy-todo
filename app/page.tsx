@@ -1,8 +1,11 @@
 'use client';
 
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from '@tanstack/react-query';
 import TaskView from './components/task/TaskView';
-import { AppProvider } from './context/AppContext';
-import Navbar from './components/Navbar';
 import { FORM_MODE } from './types';
 import dynamic from 'next/dynamic';
 
@@ -14,12 +17,12 @@ const DynamicToast = dynamic(() => import('./components/toast/Toast'), {
 });
 
 export default function Home() {
+  const queryClient = new QueryClient();
   return (
-    <AppProvider>
-      <Navbar />
+    <HydrationBoundary state={dehydrate(queryClient)}>
       <TaskView />
       <DynamicTaskModal mode={FORM_MODE.ADD} />
       <DynamicToast />
-    </AppProvider>
+    </HydrationBoundary>
   );
 }

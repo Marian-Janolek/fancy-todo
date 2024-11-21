@@ -3,22 +3,23 @@ import { TOnRecordSave } from '@/app/types';
 import { defaultModalState } from '@/utils/constants';
 import { useContext } from 'react';
 import { useFormStatus } from 'react-dom';
+import Loading from '../Loading';
 
 interface IModalFooter {
-  disabled?: boolean;
+  isLoading?: boolean;
   onRecordSave: TOnRecordSave;
 }
 
-const ModalFooter = ({ onRecordSave, disabled }: IModalFooter) => {
+const ModalFooter = ({ onRecordSave, isLoading }: IModalFooter) => {
   const { updateAppModal } = useContext(AppContext);
   return (
     <div className='mt-6 flex justify-end gap-2'>
       <button
         onClick={onRecordSave}
-        disabled={disabled}
+        disabled={isLoading}
         className='px-2 py-1 bg-violet-400 text-white rounded hover:bg-violet-600 transition'
       >
-        Potvrdiť
+        {isLoading ? <Loading className='w-4 h-4 border-white' /> : 'Potvrdiť'}
       </button>
       <button
         onClick={() => updateAppModal(defaultModalState)}
