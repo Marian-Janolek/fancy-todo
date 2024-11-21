@@ -67,5 +67,7 @@ npm run dev
 - Loading state indicators
 - Custom hooks
 - Custom toast notifications
+- Drag and Drop
+- Task count per state
 - Backend integration
 - Database schema
