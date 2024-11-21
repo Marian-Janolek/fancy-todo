@@ -71,3 +71,4 @@ npm run dev
 - Task count per state
 - Backend integration
 - Database schema
+- Database seeders
