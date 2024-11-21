@@ -1,9 +1,9 @@
 import { sliceTitle } from '@/utils/string';
 import PencilIcon from '../icons/Pencil';
 import TrashIcon from '../icons/Trash';
-import { ITask, STATES } from '@/app/types';
+import { ITask, STATES } from '@/types';
 import { useContext } from 'react';
-import { AppContext } from '@/app/context/AppContext';
+import { AppContext } from '@/context/AppContext';
 import { buttonStateMap, nextSTasktate } from '@/utils/functions';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { IChangeState, changeTaskState } from '@/utils/mutations';

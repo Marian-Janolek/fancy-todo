@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Instalation guide
 
-## Getting Started
-
-First, run the development server:
+### 1. Run the following command to install the necessary packages:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm i
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Create a New Database File in the Project Root
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+For windows users
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+New-item dev.db
+```
 
-## Learn More
+For Linux users
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+touch dev.db
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 3. Create a **.env** File in the Project Root
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+For windows users
 
-## Deploy on Vercel
+```bash
+New-item .env
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+For Linux users
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+touch .env
+```
+
+Add the following line to the **.env** file:
+**DATABASE_URL="file:./dev.db"**
+
+### 4. Migrate prisma schema
+
+Run the following command to migrate the Prisma schema:
+
+```bash
+npx prisma migrate dev --name init
+```
+
+### 5.Run seeder script to populate database
+
+Execute the seeder script to populate the database:
+
+```bash
+npm run seed
+```
+
+### 6. Start the project in development mode with:
+
+```
+npm run dev
+```
+
+## Optional features
+
+- Reusable modal component
+- Edit capability
+- Pagination support
+- Loading state indicators
+- Custom hooks
+- Custom toast notifications
+- Backend integration
+- Database schema

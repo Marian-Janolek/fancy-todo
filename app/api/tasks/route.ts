@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import db from '@/utils/db';
-import { STATES } from '@/app/types';
+import { STATES } from '@/types';
 import { mapTasks } from '@/utils/functions';
 
 export const GET = async (req: Request) => {

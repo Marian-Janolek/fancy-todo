@@ -1,9 +1,9 @@
 import { useContext, useRef, useState } from 'react';
 import Modal from './Modal';
-import { AppContext } from '@/app/context/AppContext';
+import { AppContext } from '@/context/AppContext';
 import InputField from '../form/InputField';
 import ModalFooter from './ModalFooter';
-import { FORM_MODE, ITask, ITaskResponse } from '@/app/types';
+import { FORM_MODE, ITask, ITaskResponse } from '@/types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { upsertTask } from '@/utils/mutations';
 

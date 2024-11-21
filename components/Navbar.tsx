@@ -1,6 +1,7 @@
 import { useContext } from 'react';
-import { AppContext } from '../context/AppContext';
+
 import Logo from './icons/Logo';
+import { AppContext } from '@/context/AppContext';
 
 const Navbar = () => {
   const { updateAppModal } = useContext(AppContext);

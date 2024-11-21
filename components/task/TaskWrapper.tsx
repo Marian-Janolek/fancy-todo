@@ -1,9 +1,9 @@
 import TaskColumn from './TaskColumn';
-import { STATES } from '@/app/types';
+import { STATES } from '@/types';
 import { useQuery } from '@tanstack/react-query';
 import { getTasks } from '@/utils/mutations';
 import { useContext, useEffect } from 'react';
-import { AppContext } from '@/app/context/AppContext';
+import { AppContext } from '@/context/AppContext';
 import { useSearchParams } from 'next/navigation';
 
 const TaskWrapper = () => {

@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import PaginationBtn from './PaginationBtn';
-import { AppContext } from '@/app/context/AppContext';
+import { AppContext } from '@/context/AppContext';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 

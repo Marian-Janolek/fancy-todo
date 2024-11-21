@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import db from '@/utils/db';
-import { STATES } from '@/app/types';
+import { STATES } from '@/types';
 
 export async function PUT(req: Request) {
   const body = await req.json();

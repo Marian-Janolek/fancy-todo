@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import Modal from './Modal';
 import ModalFooter from './ModalFooter';
-import { AppContext } from '@/app/context/AppContext';
+import { AppContext } from '@/context/AppContext';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteTask } from '@/utils/mutations';
 

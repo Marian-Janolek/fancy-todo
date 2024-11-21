@@ -1,4 +1,4 @@
-import { AppContext } from '@/app/context/AppContext';
+import { AppContext } from '@/context/AppContext';
 import { useEffect, useContext } from 'react';
 
 const duration = 3000;

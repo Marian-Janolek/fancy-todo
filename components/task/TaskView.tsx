@@ -1,4 +1,4 @@
-import { FORM_MODE } from '@/app/types';
+import { FORM_MODE } from '@/types';
 import Pagination from '../pagination/Pagination';
 import TaskWrapper from './TaskWrapper';
 import dynamic from 'next/dynamic';

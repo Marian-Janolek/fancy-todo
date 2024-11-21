@@ -1,4 +1,4 @@
-import { ITask } from '../../types';
+import { ITask } from '@/types';
 import Loading from '../Loading';
 import TaskCard from './TaskCard';
 

@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useState } from 'react';
 import { ITask, TIsOpenTypeModal } from '../types';
-import { defaultModalState, defaultPagination } from '../../utils/constants';
+import { defaultModalState, defaultPagination } from '../utils/constants';
 import { defaultToast } from '@/utils/constants';
 import { useSearchParams } from 'next/navigation';
 

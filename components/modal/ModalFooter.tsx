@@ -1,5 +1,5 @@
-import { AppContext } from '@/app/context/AppContext';
-import { TOnRecordSave } from '@/app/types';
+import { AppContext } from '@/context/AppContext';
+import { TOnRecordSave } from '@/types';
 import { defaultModalState } from '@/utils/constants';
 import { useContext } from 'react';
 import Loading from '../Loading';

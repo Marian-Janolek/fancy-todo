@@ -1,4 +1,4 @@
-import { STATES } from '@/app/types';
+import { STATES } from '@/types';
 
 interface ITask {
   id: number;

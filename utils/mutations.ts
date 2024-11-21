@@ -1,4 +1,4 @@
-import { ITask, STATES } from '@/app/types';
+import { ITask, STATES } from '@/types';
 
 export interface IChangeState {
   taskId: number;
