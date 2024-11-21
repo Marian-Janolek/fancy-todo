@@ -20,7 +20,7 @@ const Toast = () => {
   return (
     <div
       onClick={closeToast}
-      className={`fixed top-4 left-1/2 transform -translate-x-1/2 bg-white text-black border-2 border-violet-600 px-4 py-2 rounded shadow-lg transition-all duration-500 cursor-pointer z-[100] ${
+      className={`fixed top-4 left-1/2 transform -translate-x-1/2 bg-white text-black border-2 border-primary px-4 py-2 rounded shadow-lg transition-all duration-500 cursor-pointer z-[100] ${
         toastDetails.idVisible ? 'opacity-100' : 'translate-x-full opacity-0'
       }`}
       dangerouslySetInnerHTML={{ __html: toastDetails.message }}

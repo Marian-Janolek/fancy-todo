@@ -10,9 +10,9 @@ const Navbar = () => {
       <div className='cursor-pointer' title='Logo'>
         <Logo />
       </div>
-      <h1 className='text-3xl text-violet-600'>Zoznam úloh</h1>
+      <h1 className='text-3xl text-primary'>Zoznam úloh</h1>
       <button
-        className='p-1 px-4 bg-violet-600 rounded text-white'
+        className='p-1 px-4 bg-primary text-white rounded'
         title='Pridať úlohu'
         onClick={() => updateAppModal('addTask')}
       >

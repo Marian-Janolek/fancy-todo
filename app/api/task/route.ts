@@ -28,7 +28,7 @@ export async function PUT(req: Request) {
 
       return NextResponse.json(
         {
-          message: `Task <span class='text-violet-600 font-semibold'>${newTask.name}</span> was created successfully`,
+          message: `Task <span class='text-primary font-semibold'>${newTask.name}</span> was created successfully`,
         },
         { status: 201 }
       );
@@ -50,7 +50,7 @@ export async function PUT(req: Request) {
 
     return NextResponse.json(
       {
-        message: `Task <span class='text-violet-600 font-semibold'>${updatedTask.name}</span> was updated successfully`,
+        message: `Task <span class='text-primary font-semibold'>${updatedTask.name}</span> was updated successfully`,
       },
       { status: 200 }
     );

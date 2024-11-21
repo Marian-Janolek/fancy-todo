@@ -16,7 +16,7 @@ const ModalFooter = ({ onRecordSave, isLoading }: IModalFooter) => {
       <button
         onClick={onRecordSave}
         disabled={isLoading}
-        className='px-2 py-1 bg-violet-400 text-white rounded hover:bg-violet-600 transition'
+        className='px-2 py-1 bg-secondary text-white rounded hover:bg-primary transition'
       >
         {isLoading ? <Loading className='w-4 h-4 border-white' /> : 'Potvrdiť'}
       </button>

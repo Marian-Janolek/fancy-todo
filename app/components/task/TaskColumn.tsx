@@ -12,7 +12,7 @@ const TaskColumn = ({ title, data, isLoading }: ITaskColumn) => {
   return (
     <div className='bg-background min-h-20'>
       <h5
-        className='text-center bg-violet-600 text-white py-1 font-medium sticky top-20'
+        className='text-center bg-primary text-white py-1 font-medium sticky top-20'
         title={title}
       >
         {title}

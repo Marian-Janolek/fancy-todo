@@ -33,9 +33,7 @@ const Pagination = () => {
             key={page}
             pageNum={page}
             className={
-              page === currentPage
-                ? 'text-white bg-violet-600'
-                : 'text-violet-600'
+              page === currentPage ? 'text-white bg-primary' : 'text-primary'
             }
             onClick={() => handlePagination(page)}
           />

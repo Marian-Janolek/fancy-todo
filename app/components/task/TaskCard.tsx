@@ -58,7 +58,7 @@ const TaskCard = ({ task }: { task: ITask }) => {
       </h5>
       <div className='flex items-center gap-1 justify-center'>
         <button
-          className='text-sm  bg-violet-400  text-white rounded p-1 px-2 hover:bg-violet-600'
+          className='text-sm  bg-secondary  text-white rounded p-1 px-2 hover:bg-primary'
           title={btnText}
           onClick={handleClick}
           disabled={isPending}

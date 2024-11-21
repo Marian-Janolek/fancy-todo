@@ -45,7 +45,7 @@ export async function PATCH(
 
     return NextResponse.json(
       {
-        message: `Task <span class='text-violet-600 font-semibold'>${updatedTask.name}</span> updated successfully`,
+        message: `Task <span class='text-primary font-semibold'>${updatedTask.name}</span> updated successfully`,
       },
       { status: 200, statusText: 'OK' }
     );
@@ -96,7 +96,7 @@ export async function DELETE(
 
     return NextResponse.json(
       {
-        message: `Task <span class='text-violet-600 font-semibold'>${removedTask.name}</span> removed successfully`,
+        message: `Task <span class='text-primary font-semibold'>${removedTask.name}</span> removed successfully`,
       },
       {
         status: 200,
