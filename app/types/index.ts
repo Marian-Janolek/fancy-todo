@@ -18,7 +18,7 @@ export type TOnRecordSave = () => void;
 export interface IAppModal {
   isOpenType: TIsOpenTypeModal;
   onClosedModal: () => void;
-  modalHeader: JSX.Element;
+  modalHeader: string;
   children: ReactNode;
 }
 

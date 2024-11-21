@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import Modal from './Modal';
 import ModalFooter from './ModalFooter';
-import ModalHeader from './ModalHeader';
 import { AppContext } from '@/app/context/AppContext';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteTask } from '@/utils/mutations';
@@ -47,7 +46,7 @@ const DeleteTaskModal = () => {
 
   return (
     <Modal
-      modalHeader={<ModalHeader title='Vymazanie úlohy' />}
+      modalHeader='Vymazanie úlohy'
       isOpenType='removeTask'
       onClosedModal={() => updateAppModal('closed')}
     >

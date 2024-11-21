@@ -1,6 +1,5 @@
 import { useContext, useRef, useState } from 'react';
 import Modal from './Modal';
-import ModalHeader from './ModalHeader';
 import { AppContext } from '@/app/context/AppContext';
 import InputField from '../form/InputField';
 import ModalFooter from './ModalFooter';
@@ -68,7 +67,7 @@ const TaskModal = ({ mode }: { mode: FORM_MODE }) => {
 
   return (
     <Modal
-      modalHeader={<ModalHeader title='Úprava úlohy' />}
+      modalHeader={isEditing ? 'Úprava úlohy' : 'Pridanie úlohy'}
       isOpenType={isEditing ? 'editTask' : 'addTask'}
       onClosedModal={() => updateAppModal('closed')}
     >

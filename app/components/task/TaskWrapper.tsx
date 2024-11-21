@@ -1,15 +1,28 @@
-import { use } from 'react';
 import TaskColumn from './TaskColumn';
 import { STATES } from '@/app/types';
 import { useQuery } from '@tanstack/react-query';
 import { getTasks } from '@/utils/mutations';
-import Loading from '../Loading';
+import { useContext, useEffect } from 'react';
+import { AppContext } from '@/app/context/AppContext';
+import { useSearchParams } from 'next/navigation';
 
 const TaskWrapper = () => {
+  const searchParams = useSearchParams();
+  const page = Number(searchParams.get('page'));
+  const {
+    pagination: { setCurrentPage },
+  } = useContext(AppContext);
+
   const { data: tasks, isLoading } = useQuery({
-    queryKey: ['tasks'],
-    queryFn: getTasks,
+    queryKey: ['tasks', page],
+    queryFn: () => getTasks(page),
   });
+
+  useEffect(() => {
+    if (tasks) {
+      return setCurrentPage({ totalPages: tasks?.data.totalPages });
+    }
+  }, [tasks]);
 
   return (
     <div className='grid grid-cols-1 gap-x-4 text-center md:grid-cols-2 xl:grid-cols-3'>

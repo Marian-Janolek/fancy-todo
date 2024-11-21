@@ -1,49 +1,84 @@
 import { NextResponse } from 'next/server';
 import db from '@/utils/db';
-import { ITask, STATES } from '@/app/types';
-
-type GroupedTasks = {
-  [key: string]: ITask[];
-};
+import { STATES } from '@/app/types';
+import { mapTasks } from '@/utils/functions';
 
 export const GET = async (req: Request) => {
+  const { searchParams } = new URL(req.url);
+  const limit = Number(searchParams.get('limit')) || 10;
+  const page = Number(searchParams.get('page')) || 1;
+
+  const skip = (page - 1) * limit;
   try {
-    const tasks = await db.task.findMany({
-      select: {
-        id: true,
-        name: true,
-        state: true,
-      },
-      where: {
-        deletedAt: null,
-      },
-      orderBy: {
-        updatedAt: 'desc',
-      },
-    });
+    const [todoTasks, inProgressTasks, doneTasks, totalPages] =
+      await Promise.all([
+        db.task.findMany({
+          select: {
+            id: true,
+            name: true,
+            state: true,
+          },
+          where: {
+            state: {
+              stateName: STATES.TODO,
+            },
+            deletedAt: null,
+          },
+          take: limit,
+          skip,
+          orderBy: {
+            updatedAt: 'desc',
+          },
+        }),
+        db.task.findMany({
+          select: {
+            id: true,
+            name: true,
+            state: true,
+          },
+          where: {
+            state: {
+              stateName: STATES.IN_PROGRESS,
+            },
+            deletedAt: null,
+          },
+          take: limit,
+          skip,
+          orderBy: {
+            updatedAt: 'desc',
+          },
+        }),
+        db.task.findMany({
+          select: {
+            id: true,
+            name: true,
+            state: true,
+          },
+          where: {
+            state: {
+              stateName: STATES.DONE,
+            },
+            deletedAt: null,
+          },
+          take: limit,
+          skip,
+          orderBy: {
+            updatedAt: 'desc',
+          },
+        }),
+        db.task.count({
+          where: {
+            deletedAt: null,
+          },
+        }),
+      ]);
 
-    if (tasks.length === 0) {
-      return NextResponse.json(null, {
-        status: 204,
-        statusText: 'No content',
-      });
-    }
-
-    const groupedTasks = tasks.reduce<GroupedTasks>((acc, task) => {
-      const stateName = task.state.stateName;
-
-      if (!acc[stateName]) {
-        acc[stateName] = [];
-      }
-
-      acc[stateName].push({
-        id: task.id,
-        name: task.name,
-        stateId: task.state.id,
-        stateName: task.state.stateName as STATES,
-      });
-      return acc;
-    }, {});
+    const groupedTasks = {
+      [STATES.TODO]: mapTasks(todoTasks),
+      [STATES.IN_PROGRESS]: mapTasks(inProgressTasks),
+      [STATES.DONE]: mapTasks(doneTasks),
+      totalPages: Math.round(totalPages / 3 / limit),
+    };
 
     return NextResponse.json(
       { data: groupedTasks },

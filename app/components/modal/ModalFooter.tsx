@@ -2,7 +2,6 @@ import { AppContext } from '@/app/context/AppContext';
 import { TOnRecordSave } from '@/app/types';
 import { defaultModalState } from '@/utils/constants';
 import { useContext } from 'react';
-import { useFormStatus } from 'react-dom';
 import Loading from '../Loading';
 
 interface IModalFooter {

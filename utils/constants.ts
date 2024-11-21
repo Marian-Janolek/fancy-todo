@@ -3,4 +3,9 @@ export const defaultToast = {
   message: '',
 };
 
+export const defaultPagination = {
+  currentPage: 1,
+  totalPages: 1,
+};
+
 export const defaultModalState = 'closed';

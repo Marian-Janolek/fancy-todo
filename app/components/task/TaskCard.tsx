@@ -67,6 +67,7 @@ const TaskCard = ({ task }: { task: ITask }) => {
         </button>
         {stateName !== STATES.DONE && (
           <button
+            title='Úprava'
             className='p-1 bg-black text-white rounded transition-all duration-300 ease-in-out'
             onClick={handleEditTask}
           >
@@ -74,6 +75,7 @@ const TaskCard = ({ task }: { task: ITask }) => {
           </button>
         )}
         <button
+          title='Vymazanie'
           className='p-1 bg-red-500 text-white rounded hover:bg-red-600 transition-all duration-300 ease-in-out'
           onClick={handleDeleteTask}
         >

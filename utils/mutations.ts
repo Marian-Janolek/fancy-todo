@@ -5,8 +5,8 @@ export interface IChangeState {
   nextState: STATES;
 }
 
-export const getTasks = async () => {
-  const res = await fetch('/api/tasks/');
+export const getTasks = async (page: number, limit = 8) => {
+  const res = await fetch(`/api/tasks?page=${page}&limit=${limit}`);
 
   if (!res.ok) {
     throw new Error('Failed to fetch tasks');
