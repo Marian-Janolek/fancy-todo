@@ -24,13 +24,13 @@ const TaskCard = ({ task }: { task: ITask }) => {
     mutationFn: ({ taskId, nextState }: IChangeState) =>
       changeTaskState({ taskId, nextState }),
     onSuccess: (data) => {
-      setToast({ idVisible: true, message: data.message });
+      setToast({ idVisible: true, message: data.message, type: 'success' });
 
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
     },
     onError: (error: Error) => {
       console.error('Error changing task state:', error.message);
-      setToast({ idVisible: true, message: error.message });
+      setToast({ idVisible: true, message: error.message, type: 'error' });
     },
   });
 
@@ -51,8 +51,16 @@ const TaskCard = ({ task }: { task: ITask }) => {
     mutate({ taskId: task.id, nextState });
   };
 
+  const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
+    e.dataTransfer.setData('text/plain', JSON.stringify(task));
+  };
+
   return (
-    <div className='flex justify-between items-center gap-x-4 m-6 p-2 pb-4 bg-white rounded shadow-md cursor-pointer transition-all duration-300 ease-in-out hover:shadow-xl '>
+    <div
+      draggable
+      onDragStart={handleDragStart}
+      className='flex justify-between items-center gap-x-4 m-6 p-2 pb-4 bg-white rounded shadow-md cursor-pointer transition-all duration-300 ease-in-out hover:shadow-xl '
+    >
       <h5 className='font-semibold' title={name}>
         {sliceTitle(name, 30)}
       </h5>

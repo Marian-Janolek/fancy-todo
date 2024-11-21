@@ -29,6 +29,14 @@ export enum FORM_MODE {
   EDIT = 'EDIT',
 }
 
+export type IToastType = 'error' | 'success';
+
+export interface IToast {
+  idVisible: boolean;
+  message: JSX.Element | string;
+  type: IToastType;
+}
+
 export interface ITaskResponse {
   message: string;
 }

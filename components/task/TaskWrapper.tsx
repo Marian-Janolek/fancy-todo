@@ -31,18 +31,21 @@ const TaskWrapper = () => {
         key='to-do'
         data={tasks?.data[STATES.TODO]}
         isLoading={isLoading}
+        id={STATES.TODO}
       />
       <TaskColumn
         title='In progress'
         key='in-progress'
         data={tasks?.data[STATES.IN_PROGRESS]}
         isLoading={isLoading}
+        id={STATES.IN_PROGRESS}
       />
       <TaskColumn
         title='Done'
         key='done'
         data={tasks?.data[STATES.DONE]}
         isLoading={isLoading}
+        id={STATES.DONE}
       />
     </div>
   );

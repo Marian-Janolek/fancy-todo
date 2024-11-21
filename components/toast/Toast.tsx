@@ -9,7 +9,7 @@ const Toast = () => {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setToast({ idVisible: false, message: '' });
+      setToast({ idVisible: false, message: '', type: 'success' });
     }, duration);
 
     return () => clearTimeout(timeout);
@@ -17,12 +17,20 @@ const Toast = () => {
 
   if (!toastDetails.idVisible) return null;
 
+  const borderColor =
+    {
+      success: 'border-primary',
+      error: 'border-red-500',
+    }[toast.toastDetails.type] || '';
+
   return (
     <div
       onClick={closeToast}
-      className={`fixed top-4 left-1/2 transform -translate-x-1/2 bg-white text-black border-2 border-primary px-4 py-2 rounded shadow-lg transition-all duration-500 cursor-pointer z-[100] ${
-        toastDetails.idVisible ? 'opacity-100' : 'translate-x-full opacity-0'
-      }`}
+      className={`fixed top-4 left-1/2 transform -translate-x-1/2 bg-white text-black border-2 px-4 py-2 
+        rounded shadow-lg transition-all duration-500 cursor-pointer z-[100] ${borderColor}
+        ${
+          toastDetails.idVisible ? 'opacity-100' : 'translate-x-full opacity-0'
+        }`}
       dangerouslySetInnerHTML={{ __html: toastDetails.message }}
     ></div>
   );

@@ -20,6 +20,7 @@ const DeleteTaskModal = () => {
       setToast({
         idVisible: true,
         message: data.message,
+        type: 'success',
       });
 
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
@@ -32,6 +33,7 @@ const DeleteTaskModal = () => {
       setToast({
         idVisible: true,
         message: error.message || 'Failed to delete task',
+        type: 'error',
       });
     },
   });

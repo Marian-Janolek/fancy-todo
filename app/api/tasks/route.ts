@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import db from '@/utils/db';
 import { STATES } from '@/types';
-import { mapTasks } from '@/utils/functions';
+import { findHighestCount, mapTasks } from '@/utils/functions';
 
 export const GET = async (req: Request) => {
   const { searchParams } = new URL(req.url);
@@ -10,74 +10,102 @@ export const GET = async (req: Request) => {
 
   const skip = (page - 1) * limit;
   try {
-    const [todoTasks, inProgressTasks, doneTasks, totalPages] =
-      await Promise.all([
-        db.task.findMany({
-          select: {
-            id: true,
-            name: true,
-            state: true,
+    const [todoTasks, inProgressTasks, doneTasks, states] = await Promise.all([
+      db.task.findMany({
+        select: {
+          id: true,
+          name: true,
+          state: true,
+        },
+        where: {
+          state: {
+            stateName: STATES.TODO,
           },
-          where: {
-            state: {
-              stateName: STATES.TODO,
-            },
-            deletedAt: null,
+          deletedAt: null,
+        },
+        take: limit,
+        skip,
+        orderBy: {
+          updatedAt: 'desc',
+        },
+      }),
+      db.task.findMany({
+        select: {
+          id: true,
+          name: true,
+          state: true,
+        },
+        where: {
+          state: {
+            stateName: STATES.IN_PROGRESS,
           },
-          take: limit,
-          skip,
-          orderBy: {
-            updatedAt: 'desc',
+          deletedAt: null,
+        },
+        take: limit,
+        skip,
+        orderBy: {
+          updatedAt: 'desc',
+        },
+      }),
+      db.task.findMany({
+        select: {
+          id: true,
+          name: true,
+          state: true,
+        },
+        where: {
+          state: {
+            stateName: STATES.DONE,
           },
-        }),
-        db.task.findMany({
-          select: {
-            id: true,
-            name: true,
-            state: true,
-          },
-          where: {
-            state: {
-              stateName: STATES.IN_PROGRESS,
-            },
-            deletedAt: null,
-          },
-          take: limit,
-          skip,
-          orderBy: {
-            updatedAt: 'desc',
-          },
-        }),
-        db.task.findMany({
-          select: {
-            id: true,
-            name: true,
-            state: true,
-          },
-          where: {
-            state: {
-              stateName: STATES.DONE,
-            },
-            deletedAt: null,
-          },
-          take: limit,
-          skip,
-          orderBy: {
-            updatedAt: 'desc',
-          },
-        }),
-        db.task.count({
-          where: {
-            deletedAt: null,
-          },
-        }),
-      ]);
+          deletedAt: null,
+        },
+        take: limit,
+        skip,
+        orderBy: {
+          updatedAt: 'desc',
+        },
+      }),
+      db.taskState.findMany({
+        select: {
+          id: true,
+          stateName: true,
+        },
+      }),
+    ]);
+
+    const count = await db.task
+      .groupBy({
+        by: ['stateId'],
+        where: { deletedAt: null },
+        _count: true,
+      })
+      .then((counts) => {
+        const countMap = new Map(
+          counts.map(({ stateId, _count }) => [stateId, _count])
+        );
+        return states.map((state) => ({
+          ...state,
+          count: countMap.get(state.id) || 0,
+        }));
+      });
+
+    const highestCountState = findHighestCount(count) || { count: 0 };
 
     const groupedTasks = {
-      [STATES.TODO]: mapTasks(todoTasks),
-      [STATES.IN_PROGRESS]: mapTasks(inProgressTasks),
-      [STATES.DONE]: mapTasks(doneTasks),
-      totalPages: Math.round(totalPages / 3 / limit),
+      [STATES.TODO]: {
+        data: mapTasks(todoTasks),
+        total: count.find((state) => state.stateName === STATES.TODO)?.count,
+      },
+      [STATES.IN_PROGRESS]: {
+        data: mapTasks(inProgressTasks),
+        total: count.find((state) => state.stateName === STATES.IN_PROGRESS)
+          ?.count,
+      },
+      [STATES.DONE]: {
+        data: mapTasks(doneTasks),
+        total: count.find((state) => state.stateName === STATES.DONE)?.count,
+      },
+      totalPages: Math.round(highestCountState.count / limit),
     };
 
     return NextResponse.json(

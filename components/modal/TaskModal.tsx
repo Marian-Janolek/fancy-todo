@@ -27,6 +27,7 @@ const TaskModal = ({ mode }: { mode: FORM_MODE }) => {
       setToast({
         idVisible: true,
         message: data.message,
+        type: 'success',
       });
 
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
@@ -40,6 +41,7 @@ const TaskModal = ({ mode }: { mode: FORM_MODE }) => {
       setToast({
         idVisible: true,
         message: error.message || 'Something went wrong',
+        type: 'error',
       });
     },
   });

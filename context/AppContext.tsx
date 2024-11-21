@@ -1,13 +1,8 @@
-import { createContext, ReactNode, useState } from 'react';
-import { ITask, TIsOpenTypeModal } from '../types';
+import { createContext, ReactNode, useEffect, useState } from 'react';
+import { ITask, IToast, TIsOpenTypeModal } from '../types';
 import { defaultModalState, defaultPagination } from '../utils/constants';
 import { defaultToast } from '@/utils/constants';
 import { useSearchParams } from 'next/navigation';
-
-interface IToast {
-  idVisible: boolean;
-  message: JSX.Element | string;
-}
 
 interface IPagination {
   currentPage: number;
@@ -34,7 +29,7 @@ export const AppContext = createContext({} as IAppContext);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const searchParams = useSearchParams();
-  const page = Number(searchParams.get('page'));
+  const page = Number(searchParams.get('page')) || 1;
   const [appModal, setAppModal] = useState<TIsOpenTypeModal>(defaultModalState);
   const [modalData, setModalData] = useState<Partial<ITask>>({});
   const [toastDetails, setToastDetails] = useState<IToast>(defaultToast);
@@ -52,7 +47,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const closeToast = () => {
-    setToastDetails({ idVisible: false, message: '' });
+    setToastDetails({ idVisible: false, message: '', type: 'success' });
   };
 
   const setCurrentPage = (data: Partial<IPagination>) => {
